@@ -20,6 +20,7 @@ class BookSeeder extends Seeder
                 'title' => $book->title,
                 'author' => $book->author,
                 'imageLink' => $book->imageLink,
+                'stock' => rand(1, 10),
             ]);
         }
     }

@@ -16,6 +16,7 @@ class Book extends Model
         'title',
         'author',
         'imageLink',
+        'stock',
     ];
 
     public function issues(): HasMany

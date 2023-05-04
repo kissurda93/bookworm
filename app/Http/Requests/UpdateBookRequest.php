@@ -11,7 +11,7 @@ class UpdateBookRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,6 +24,7 @@ class UpdateBookRequest extends FormRequest
         return [
             'title' => 'string',
             'author' => 'string',
+            'stock' => 'integer',
             'image' => 'file|mimes:png,jpg,jpeg',
         ];
     }

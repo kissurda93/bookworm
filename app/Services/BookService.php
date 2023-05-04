@@ -12,7 +12,9 @@ class BookService
     $book = Book::create([
       'title' => $validated['title'],
       'author' => $validated['author'],
-      'imageLink' => $this->storeImage($validated['title'], $validated['image']),
+      'stock' => isset($validated['stock']) ? $validated['stock'] : 1,
+      'imageLink' => $this->
+      storeImage($validated['title'], isset($validated['image']) ? $validated['image'] : null),
     ]);
 
     return $book;
@@ -22,26 +24,22 @@ class BookService
   {
     $book = Book::find($id);
 
-    if(isset($validated['title'])) {
-      $book['title'] = $validated['title'];
-    }
-
-    if(isset($validated['author'])) {
-      $book['author'] = $validated['author'];
-    }
-
-    if(isset($validated['image'])) {
-      $book['imageLink'] = $this->
-        storeImage(isset($validated['title']) ? $validated['title'] : $book['title'] , $validated['image']);
+    foreach ($validated as $key => $value) {
+      if($key === 'image') {
+        $book['imageLink'] = $this->
+          storeImage(isset($validated['title']) ? $validated['title'] : $book['title'] , $value);
+      } else {
+        $book[$key] = $value;
+      }
     }
 
     $book->save();
     return $book;
   }
 
-  private function storeImage(string $bookTitle, $file): string
+  private function storeImage(string $bookTitle, $file = null): string
   {
-    if(!$file) {
+    if($file === null) {
       return 'images/no-image.jpg';
     }
 

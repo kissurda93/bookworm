@@ -24,6 +24,7 @@ class NewBookRequest extends FormRequest
         return [
             'title' => 'string|required',
             'author' => 'string|required',
+            'stock' => 'integer',
             'image' => 'file|mimes:png,jpg,jpeg',
         ];
     }

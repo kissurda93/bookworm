@@ -12,15 +12,14 @@ use Illuminate\Validation\ValidationException;
 
 class BookController extends Controller
 {
-    public function getBooks(): Response
+    public function getBooks(string $query = ''): Response
     {
-        $books = Book::get();
-        return response($books);
-    }
+        if($query) {
+            $books = Book::searchByTitleOrAuthor($query)->get();
+            return response($books);
+        }
 
-    public function search(string $query): Response
-    {
-        $books = Book::searchByTitleOrAuthor($query)->get();
+        $books = Book::get();
         return response($books);
     }
 

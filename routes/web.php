@@ -19,13 +19,11 @@ Route::get('/', function () {
 });
 
 // Books related
-Route::get('/books', [BookController::class, 'getBooks']);
-Route::get('/books/{query}', [BookController::class, 'search']);
-Route::post('/new-book', [BookController::class, 'newBook']);
-Route::patch('/update-book/{id}', [BookController::class, 'updateBook']);
-Route::delete('/delete-book/{id}', [BookController::class, 'deleteBook']);
+Route::get('/books/{query?}', [BookController::class, 'getBooks']);
 
 // Librarian actions
 Route::middleware(['is_librarian'])->group(function () {
-
+    Route::post('/new-book', [BookController::class, 'newBook']);
+    Route::patch('/update-book/{id}', [BookController::class, 'updateBook']);
+    Route::delete('/delete-book/{id}', [BookController::class, 'deleteBook']);
 });

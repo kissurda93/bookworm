@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('author');
             $table->string('imageLink');
+            $table->integer('stock')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
