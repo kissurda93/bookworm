@@ -19,5 +19,13 @@ class UserSeeder extends Seeder
             'password' => 'testuser',
             'email_verified_at' => date('m/d/y h:i:s'),
         ]);
+
+        User::create([
+            'name' => 'Teszt Elek',
+            'email' => 'testlibrarian@email.com',
+            'password' => 'testlibrarian',
+            'email_verified_at' => date('m/d/y h:i:s'),
+            'is_librarian' => 1,
+        ]);
     }
 }

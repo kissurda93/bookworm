@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
+});
+
+// Books related
+Route::get('/books', [BookController::class, 'getBooks']);
+Route::get('/books/{query}', [BookController::class, 'search']);
+Route::post('/new-book', [BookController::class, 'newBook']);
+Route::patch('/update-book/{id}', [BookController::class, 'updateBook']);
+Route::delete('/delete-book/{id}', [BookController::class, 'deleteBook']);
+
+// Librarian actions
+Route::middleware(['is_librarian'])->group(function () {
+
 });
