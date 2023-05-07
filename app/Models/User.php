@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_librarian',
+        'verification_token',
     ];
 
     /**
@@ -34,7 +35,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'is_librarian',
+        'verification_token',
     ];
 
     /**
@@ -45,6 +46,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function setPasswordAttribute($password) {
+        $this->attributes['password'] = bcrypt($password);
+    }
 
     public function issues(): HasMany
     {

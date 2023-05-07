@@ -20,10 +20,8 @@ class BookService
     return $book;
   }
 
-  public function updateBook(int $id, array $validated): Model
+  public function updateBook(Book $book, array $validated): Model
   {
-    $book = Book::find($id);
-
     foreach ($validated as $key => $value) {
       if($key === 'image') {
         $book['imageLink'] = $this->

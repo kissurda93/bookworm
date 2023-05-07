@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('verification_token')->nullable()->unique();
             $table->string('password');
             $table->boolean('is_librarian')->default(0);
             $table->rememberToken();

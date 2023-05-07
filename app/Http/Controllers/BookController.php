@@ -34,22 +34,20 @@ class BookController extends Controller
         }
     }
 
-    public function updateBook(int $id, UpdateBookRequest $request, BookService $bookService): Response
+    public function updateBook(Book $book, UpdateBookRequest $request, BookService $bookService): Response
     {
         try {
             $validated = $request->validated();
-            $updatedBook = $bookService->updateBook($id, $validated);
+            $updatedBook = $bookService->updateBook($book, $validated);
             return response($updatedBook);
         } catch (ValidationException $e) {
             return response($e->getMessage());
         }
     }
 
-    public function deleteBook(int $id): Response
+    public function deleteBook(Book $book): Response
     {
-        $book = Book::find($id);
         $book->delete();
-
         return response('Book deleted!');
     }
 }
