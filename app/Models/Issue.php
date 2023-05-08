@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Issue extends Model
@@ -11,18 +12,21 @@ class Issue extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
+        'book_id',
         'issue_date',
         'expire_date',
         'fine',
+        'retrieved',
     ];
 
-    public function user(): HasOne
+    public function user(): BelongsTo
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function book(): HasOne
+    public function book(): BelongsTo
     {
-        return $this->hasOne(Book::class);
+        return $this->belongsTo(Book::class);
     }
 }

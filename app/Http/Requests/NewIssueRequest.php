@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IsInDbRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBookRequest extends FormRequest
+class NewIssueRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +23,7 @@ class UpdateBookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'string',
-            'author' => 'string',
-            'stock' => 'integer',
-            'image' => 'file|mimes:png,jpg,jpeg',
+            'month' => 'required|integer|max:3',
         ];
     }
 }

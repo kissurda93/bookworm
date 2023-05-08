@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\IssueController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,9 +31,20 @@ Route::get('/account_activate/{user:verification_token}', [UserController::class
 // Books related
 Route::get('/books/{query?}', [BookController::class, 'getBooks']);
 
-Route::get('/users', [UserController::class, 'getUsers']);
-// Librarian actions
+// Issue related
+Route::post('/new-issue/{user}/{book}', [IssueController::class, 'createIssue']);
+
+
+// Librarian actions -----------------------------------------
 Route::middleware(['is_librarian'])->group(function () {
+    // User related
+    Route::get('/users/{query?}', [UserController::class, 'getUsers']);
+
+    // Issue related
+    Route::get('/issues', [IssueController::class, 'getIssues']);
+    Route::patch('/update-issue/{issue}', [IssueController::class, 'updateIssue']);
+
+    // Book related
     Route::post('/new-book', [BookController::class, 'newBook']);
     Route::patch('/update-book/{book}', [BookController::class, 'updateBook']);
     Route::delete('/delete-book/{book}', [BookController::class, 'deleteBook']);

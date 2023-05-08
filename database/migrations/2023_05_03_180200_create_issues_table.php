@@ -17,10 +17,12 @@ return new class extends Migration
             $table->unsignedBigInteger('book_id');
             $table->date('issue_date');
             $table->date('expire_date');
-            $table->integer('fine');
+            $table->integer('fine')->default(0);
+            $table->boolean('issued')->default(0);
+            $table->boolean('retrieved')->default(0);
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('book_id')->references('id')->on('books');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
         });
     }
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NewBookRequest;
-use App\Http\Requests\UpdateBookRequest;
+use App\Http\Requests\BookUpdateRequest;
 use App\Models\Book;
 use App\Services\BookService;
 use Illuminate\Http\Request;
@@ -28,13 +28,13 @@ class BookController extends Controller
         try {
             $validated = $request->validated();
             $book = $bookService->createBook($validated);
-            return response($book);
+            return response($book, 201);
         } catch (ValidationException $e) {
             return response($e->getMessage());
         }
     }
 
-    public function updateBook(Book $book, UpdateBookRequest $request, BookService $bookService): Response
+    public function updateBook(Book $book, BookUpdateRequest $request, BookService $bookService): Response
     {
         try {
             $validated = $request->validated();

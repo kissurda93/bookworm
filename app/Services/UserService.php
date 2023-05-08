@@ -9,14 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class UserService
 {
-  public function login(array $validated, LoginRequest $request): string
+  public function login(array $validated, LoginRequest $request): void
   {
-    if(!Auth::attempt($validated)) {
+    $user = User::where('email', $validated['email']);
+
+    if(!$user || $user->email_verified_at === null || !Auth::attempt($validated)) {
       throw new \Exception('Sign in failed!');
     }
 
-    $token = $request->user()->createToken('my_token')->plainTextToken;
-    return $token;
+    $request->session()->regenerate();
   }
 
   public function createUser(array $validated): array

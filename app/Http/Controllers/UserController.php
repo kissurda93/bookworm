@@ -21,8 +21,13 @@ class UserController extends Controller
         return response($user);
     }
 
-    public function getUsers(): Response
+    public function getUsers(string $query = ''): Response
     {
+        if($query) {
+            $users = User::searchByName($query)->get();
+            return $users;
+        }
+
         $users = User::get();
         return response($users);
     }
@@ -31,10 +36,12 @@ class UserController extends Controller
     {
         try {
             $validated = $request->validated();
-            $token = $userService->login($validated, $request);
-            return response($token);
+            $userService->login($validated, $request);
+            return response([]);
+        } catch (ValidationException $e) {
+            return response($e->errors(), 422);
         } catch(\Exception $e) {
-            return response($e->getMessage(), 422);
+            return response($e->getMessage(), 400);
         }
     }
 
@@ -46,9 +53,9 @@ class UserController extends Controller
 
             Mail::to($user->email)->send(new VerificationMail($activationURL, $user->name));
 
-            return response('An activation Link has been sent to your email address!');
+            return response('An activation Link has been sent to your email address!', 201);
         } catch (ValidationException $e) {
-            return response($e->getMessage(), 422);
+            return response($e->errors(), 422);
         }
     }
 
@@ -69,7 +76,7 @@ class UserController extends Controller
             $updatedUser = $userService->updateUser($user, $validated);
             return response($updatedUser);
         } catch (ValidationException $e) {
-            return response($e->getMessage(), 422);
+            return response($e->errors(), 422);
         }
     }
 
