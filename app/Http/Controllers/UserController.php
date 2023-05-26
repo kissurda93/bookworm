@@ -36,8 +36,8 @@ class UserController extends Controller
     {
         try {
             $validated = $request->validated();
-            $userService->login($validated, $request);
-            return response([]);
+            $user = $userService->login($validated);
+            return response($user);
         } catch (ValidationException $e) {
             return response($e->errors(), 422);
         } catch(\Exception $e) {

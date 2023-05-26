@@ -15,13 +15,13 @@ class VerifyCsrfToken extends Middleware
         // 'http://127.0.0.1:8000/new-book',
         // 'http://127.0.0.1:8000/update-book/*',
         // 'http://127.0.0.1:8000/delete-book/*',
-         'http://127.0.0.1:8000/new-user',
+        // 'http://127.0.0.1:8000/new-user',
         // 'http://127.0.0.1:8000/update-user/*',
         // 'http://127.0.0.1:8000/delete-user/*',
         // 'http://127.0.0.1:8000/users',
         // 'http://127.0.0.1:8000/user',
         // 'http://127.0.0.1:8000/login',
-         'http://127.0.0.1:8000/new-issue/*',
+        // 'http://127.0.0.1:8000/new-issue/*',
 
     ];
 }

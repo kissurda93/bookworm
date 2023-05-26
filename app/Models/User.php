@@ -26,6 +26,7 @@ class User extends Authenticatable
         'password',
         'is_librarian',
         'verification_token',
+        'email_verified_at',
     ];
 
     /**

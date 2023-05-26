@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class UserService
 {
-  public function login(array $validated, LoginRequest $request): void
+  public function login(array $validated): User
   {
-    $user = User::where('email', $validated['email']);
-
-    if(!$user || $user->email_verified_at === null || !Auth::attempt($validated)) {
+    if(!Auth::attempt($validated)) {
       throw new \Exception('Sign in failed!');
     }
 
-    $request->session()->regenerate();
+    $user = auth()->user();
+    return $user;
   }
 
   public function createUser(array $validated): array
