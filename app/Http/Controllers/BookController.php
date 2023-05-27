@@ -14,11 +14,11 @@ class BookController extends Controller
     public function getBooks(string $query = '')
     {
         if($query) {
-            $books = Book::searchByTitleOrAuthor($query)->get();
-            return response($books);
+            $books = Book::searchByTitleOrAuthor($query)->orderBy('title', 'asc')->paginate(25);
+        } else {
+          $books = Book::orderBy('title', 'asc')->paginate(25);
         }
 
-        $books = Book::paginate(25);
         return inertia('Books', ['books' => $books]);
     }
 

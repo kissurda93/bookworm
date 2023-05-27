@@ -3,6 +3,7 @@ import Layout from "../Layout/Layout";
 import { usePage } from "@inertiajs/inertia-react";
 import { useEffect } from "react";
 import Paginater from "../Components/Paginater";
+import SearchBar from "../Components/SearchBar";
 
 const Books = ({ books }) => {
   const { auth } = usePage().props;
@@ -15,6 +16,7 @@ const Books = ({ books }) => {
     <Layout>
       {books && (
         <>
+          <SearchBar />
           <ul className="book-list">
             {books.data.map((book) => (
               <li key={book.id}>
