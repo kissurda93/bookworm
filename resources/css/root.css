@@ -12,6 +12,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border: none;
 }
 
 * li {
@@ -23,7 +24,14 @@
   color: inherit;
 }
 
+* button {
+  cursor: pointer;
+  transition: 350ms;
+  border-radius: 4px;
+}
+
 body {
-  background: var(--color1);
+  background: url("/images/background.jpg") var(--color5) no-repeat;
+  background-blend-mode: luminosity;
   font-family: "Lora", serif;
 }

@@ -18,7 +18,7 @@ class BookController extends Controller
             return response($books);
         }
 
-        $books = Book::get();
+        $books = Book::paginate(25);
         return inertia('Books', ['books' => $books]);
     }
 

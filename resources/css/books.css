@@ -1,0 +1,36 @@
+.book-list {
+  padding: 2rem 6rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.book-list li {
+  max-width: 300px;
+  margin: 2rem;
+  background-color: var(--color3);
+  color: var(--color2);
+  box-shadow: 4px 4px 10px black;
+}
+
+.book-info {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.book-list li button {
+  font-size: 1.2rem;
+  background-color: var(--color2);
+  color: var(--color3);
+  margin-top: 1rem;
+  padding: 0.3rem 0.6rem;
+  align-self: end;
+}
+
+.book-list li button:hover,
+.book-list li button:focus {
+  background-color: var(--color4);
+  color: white;
+}

@@ -1,8 +1,10 @@
 import "../../css/welcome.css";
 import Layout from "../Layout/Layout";
 import LoginForm from "../Components/LoginForm";
+import { usePage } from "@inertiajs/inertia-react";
 
 const Welcome = () => {
+  const { auth } = usePage().props;
   return (
     <Layout>
       <div className="welcome-container">
@@ -11,7 +13,7 @@ const Welcome = () => {
           <q>In the end, we`ll all become stories.</q>
           <span>Margaret Atwood</span>
         </div>
-        <LoginForm />
+        {!auth.user && <LoginForm />}
       </div>
     </Layout>
   );

@@ -1,0 +1,22 @@
+.paginater-container {
+  display: flex;
+  gap: 0.2rem;
+  justify-content: center;
+}
+
+.paginater-container a {
+  background-color: var(--color3);
+  color: white;
+  min-width: 32px;
+  min-height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2px;
+  padding: 0.3rem;
+  font-size: 1.5rem;
+}
+
+.paginater-container .active {
+  color: var(--color2);
+}

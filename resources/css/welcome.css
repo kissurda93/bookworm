@@ -1,10 +1,9 @@
 body {
-  background: url("/images/background.jpg") var(--color5) no-repeat;
   background-size: cover;
-  background-blend-mode: luminosity;
 }
 
 .welcome-container {
+  height: 60vh;
   margin-top: 10rem;
   padding-inline: 2rem;
   text-align: end;
