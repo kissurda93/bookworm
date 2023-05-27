@@ -6,13 +6,12 @@ use App\Http\Requests\NewBookRequest;
 use App\Http\Requests\BookUpdateRequest;
 use App\Models\Book;
 use App\Services\BookService;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 
 class BookController extends Controller
 {
-    public function getBooks(string $query = ''): Response
+    public function getBooks(string $query = '')
     {
         if($query) {
             $books = Book::searchByTitleOrAuthor($query)->get();
@@ -20,7 +19,7 @@ class BookController extends Controller
         }
 
         $books = Book::get();
-        return response($books);
+        return inertia('Books', ['books' => $books]);
     }
 
     public function newBook(NewBookRequest $request, BookService $bookService): Response

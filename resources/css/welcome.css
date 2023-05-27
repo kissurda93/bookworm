@@ -1,0 +1,30 @@
+body {
+  background: url("/images/background.jpg") var(--color5) no-repeat;
+  background-size: cover;
+  background-blend-mode: luminosity;
+}
+
+.welcome-container {
+  margin-top: 10rem;
+  padding-inline: 2rem;
+  text-align: end;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
+}
+
+.welcome-container h1 {
+  font-size: 2.4rem;
+  color: var(--color3);
+}
+
+.qoute q {
+  font-size: 1.6rem;
+  color: var(--color2);
+}
+
+.qoute span {
+  padding-left: 5px;
+  color: var(--color3);
+}

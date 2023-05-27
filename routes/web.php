@@ -21,8 +21,8 @@ Route::get('/', function () {
 })->name('indexPage');
 
 //  User related
-Route::get('/user', [UserController::class, 'getUser']);
 Route::post('/login', [UserController::class, 'login']);
+Route::get('/logout', [UserController::class, 'logout']);
 Route::post('/new-user', [UserController::class, 'registerUser']);
 Route::patch('/update-user/{user}', [UserController::class, 'updateUser']);
 Route::delete('/delete-user/{user}', [UserController::class, 'deleteUser']);

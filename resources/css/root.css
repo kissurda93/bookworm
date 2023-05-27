@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap");
+
+:root {
+  --color1: rgb(139, 142, 142);
+  --color2: rgb(173, 246, 177);
+  --color3: rgb(19, 41, 61);
+  --color4: rgb(230, 57, 70);
+  --color5: rgb(39, 39, 39);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+* li {
+  list-style-type: none;
+}
+
+* a {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  background: var(--color1);
+  font-family: "Lora", serif;
+}

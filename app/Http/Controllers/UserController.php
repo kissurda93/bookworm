@@ -11,16 +11,11 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\RegistrationRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
-    public function getUser(): Response
-    {
-        $user = auth()->user();
-        return response($user);
-    }
-
     public function getUsers(string $query = ''): Response
     {
         if($query) {
@@ -32,17 +27,23 @@ class UserController extends Controller
         return response($users);
     }
 
-    public function login(LoginRequest $request, UserService $userService): Response
+    public function login(LoginRequest $request, UserService $userService)
     {
         try {
             $validated = $request->validated();
             $user = $userService->login($validated);
-            return response($user);
+            return inertia('Profile', ['user' => $user]);
         } catch (ValidationException $e) {
             return response($e->errors(), 422);
         } catch(\Exception $e) {
             return response($e->getMessage(), 400);
         }
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return to_route('indexPage');
     }
 
     public function registerUser(RegistrationRequest $request, UserService $userService): Response
