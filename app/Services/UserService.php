@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +11,7 @@ class UserService
   public function login(array $validated): User
   {
     if(!Auth::attempt($validated)) {
-      throw new \Exception('Sign in failed!');
+      throw new \Exception('LogIn in failed!');
     }
 
     $user = auth()->user();
@@ -43,13 +42,15 @@ class UserService
     }
 
     $user->email_verified_at = now();
-    $user->save();   
+    $user->save();
   }
 
   public function updateUser(User $user, array $validated): User
   {
     foreach ($validated as $key => $value) {
-      $user[$key] = $value;
+      if($user[$key] != $value) {
+        $user[$key] = $value;
+      }
     }
 
     $user->save();

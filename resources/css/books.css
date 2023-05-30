@@ -32,5 +32,5 @@
 .book-list li button:hover,
 .book-list li button:focus {
   background-color: var(--color4);
-  color: white;
+  color: var(--color5);
 }

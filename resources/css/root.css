@@ -25,13 +25,22 @@
 }
 
 * button {
+  font-family: inherit;
   cursor: pointer;
-  transition: 350ms;
   border-radius: 4px;
+  transition: 350ms;
+}
+
+* input {
+  font-family: inherit;
 }
 
 body {
-  background: url("/images/background.jpg") var(--color5) no-repeat;
-  background-blend-mode: luminosity;
+  background: var(--color1);
   font-family: "Lora", serif;
+}
+
+.input-error {
+  color: var(--color4);
+  background-color: var(--color5);
 }

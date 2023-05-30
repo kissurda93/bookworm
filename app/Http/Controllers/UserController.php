@@ -27,16 +27,17 @@ class UserController extends Controller
         return response($users);
     }
 
-    public function login(LoginRequest $request, UserService $userService)
+    public function login(LoginRequest $request, UserService $userService): RedirectResponse
     {
         try {
             $validated = $request->validated();
-            $user = $userService->login($validated);
-            return inertia('Profile', ['user' => $user]);
-        } catch (ValidationException $e) {
-            return response($e->errors(), 422);
+            $userService->login($validated);
+            return to_route('profile');
         } catch(\Exception $e) {
-            return response($e->getMessage(), 400);
+            return back()->with('message', [
+              'text' => $e->getMessage(),
+              'error' => 1,
+          ]);
         }
     }
 
@@ -70,20 +71,18 @@ class UserController extends Controller
         }
     }
 
-    public function updateUser(User $user, UserUpdateRequest $request, UserService $userService): Response
+    public function updateUser(User $user, UserUpdateRequest $request, UserService $userService): RedirectResponse
     {
-        try {
-            $validated = $request->validated();
-            $updatedUser = $userService->updateUser($user, $validated);
-            return response($updatedUser);
-        } catch (ValidationException $e) {
-            return response($e->errors(), 422);
-        }
+        $validated = $request->validated();
+        $userService->updateUser($user, $validated);
+        return to_route('profile')->with('message', [
+          'text' => 'Update was successfull!',
+        ]);
     }
 
-    public function deleteUser(User $user): Response
+    public function deleteUser(User $user): RedirectResponse
     {
         $user->delete();
-        return response('Account deleted!');
+        return to_route('indexPage')->with('message', 'Account deleted!');
     }
 }

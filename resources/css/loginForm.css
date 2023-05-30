@@ -20,7 +20,6 @@
   font-size: 1.3rem;
   padding: 0.2rem 0.3rem;
   border-radius: 4px;
-  font-family: inherit;
   background-color: rgb(223, 222, 222);
 }
 
@@ -35,7 +34,6 @@
   background-color: var(--color1);
   color: white;
   border-radius: 4px;
-  font-family: inherit;
 }
 
 .login-form button:hover,

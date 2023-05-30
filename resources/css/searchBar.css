@@ -19,6 +19,7 @@
   border-radius: 4px;
   background-color: var(--color3);
   color: var(--color2);
+  box-shadow: 4px 4px 8px black;
 }
 
 .search-container input:focus {

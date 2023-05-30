@@ -1,16 +1,11 @@
 import "../../css/books.css";
 import Layout from "../Layout/Layout";
 import { usePage } from "@inertiajs/inertia-react";
-import { useEffect } from "react";
 import Paginater from "../Components/Paginater";
 import SearchBar from "../Components/SearchBar";
 
 const Books = ({ books }) => {
   const { auth } = usePage().props;
-
-  useEffect(() => {
-    console.log(books);
-  });
 
   return (
     <Layout>
