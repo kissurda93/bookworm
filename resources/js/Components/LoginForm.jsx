@@ -18,6 +18,7 @@ const LoginForm = () => {
         Email
         <input
           type="email"
+          required
           value={data.email}
           onChange={(e) => setData("email", e.target.value)}
         />
@@ -27,6 +28,7 @@ const LoginForm = () => {
         Password
         <input
           type="password"
+          required
           value={data.password}
           onChange={(e) => setData("password", e.target.value)}
         />

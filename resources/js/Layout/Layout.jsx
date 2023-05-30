@@ -1,12 +1,10 @@
 import "../../css/layout.css";
 import "../Components/Navbar";
 import NavBar from "../Components/Navbar";
-import { usePage } from "@inertiajs/inertia-react";
+import Message from "../Components/Message";
 import { useEffect } from "react";
 
 const Layout = ({ children }) => {
-  const { flash } = usePage().props;
-
   const backgroundSwitcher = () => {
     const currentUrl = window.location.href;
     const welcomePage = import.meta.env.VITE_APP_URL;
@@ -27,20 +25,10 @@ const Layout = ({ children }) => {
     backgroundSwitcher();
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      flash.message = null;
-    }, 500);
-  }, [flash.message]);
-
   return (
     <>
       <NavBar />
-      {flash.message && (
-        <div className={flash.message.error ? "bad-message" : "good-message"}>
-          <p>{flash.message.text}</p>
-        </div>
-      )}
+      <Message />
       <div className="content">{children}</div>
     </>
   );

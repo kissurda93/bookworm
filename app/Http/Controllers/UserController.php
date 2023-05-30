@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\PasswordUpdateRequest;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Response;
@@ -12,7 +13,6 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\RegistrationRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -47,27 +47,30 @@ class UserController extends Controller
         return to_route('indexPage');
     }
 
-    public function registerUser(RegistrationRequest $request, UserService $userService): Response
+    public function registerUser(RegistrationRequest $request, UserService $userService): RedirectResponse
     {
-        try {
-            $validated = $request->validated();
-            list($user, $activationURL) = $userService->createUser($validated);
+        $validated = $request->validated();
+        list($user, $activationURL) = $userService->createUser($validated);
 
-            Mail::to($user->email)->send(new VerificationMail($activationURL, $user->name));
+        Mail::to($user->email)->send(new VerificationMail($activationURL, $user->name));
 
-            return response('An activation Link has been sent to your email address!', 201);
-        } catch (ValidationException $e) {
-            return response($e->errors(), 422);
-        }
+        return to_route('indexPage')->with('message', [
+          'text' => 'An activation Link has been sent to your email address!',
+        ]);
     }
 
     public function activate(User $user, UserService $userService): RedirectResponse
     {
         try {
             $userService->activateAccount($user);
-            return redirect(route('indexPage'));
+            return to_route('indexPage')->with('message', [
+              'text' => 'Account verified!'
+            ]);
         } catch (\Exception $e) {
-            return redirect(route('indexPage'));
+            return to_route('indexPage')->with('message', [
+              'text' => $e->getMessage(),
+              'error' => 1,
+            ]);
         }
     }
 
@@ -80,9 +83,27 @@ class UserController extends Controller
         ]);
     }
 
+    public function updatePassword(User $user, PasswordUpdateRequest $request, UserService $userService): RedirectResponse
+    {
+        $validated = $request->validated();
+        $userService->updatePassword($user, $validated);
+        return to_route('profile')->with('message', [
+          'text' => 'Update was successfull!',
+        ]);
+    }
+
     public function deleteUser(User $user): RedirectResponse
     {
         $user->delete();
-        return to_route('indexPage')->with('message', 'Account deleted!');
+        return to_route('indexPage')->with('message', [
+          'text' => 'Account deleted!',
+      ]);
+    }
+
+    public function restoreUser(int $id)
+    {
+      if(User::withTrashed()->findOrFail($id)->restore()) {
+        return response("User restored!");
+      }
     }
 }

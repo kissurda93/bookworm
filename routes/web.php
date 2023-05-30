@@ -3,6 +3,7 @@
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\IssueController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,16 +19,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Welcome')->name('indexPage');
 
+Route::get('/restore/{id}', [UserController::class, 'restoreUser']);
+
 //  User related
 Route::middleware(['guest'])->group(function () {
   Route::post('/login', [UserController::class, 'login']);
-  Route::post('/new-user', [UserController::class, 'registerUser']);
+  Route::inertia('/register-form', 'RegistrationForm');
+  Route::post('/registration', [UserController::class, 'registerUser']);
 });
 
 Route::middleware(['auth'])->group(function () {
   Route::get('/logout', [UserController::class, 'logout']);
   Route::inertia('/profile', 'Profile')->name('profile');
   Route::patch('/update-user/{user}', [UserController::class, 'updateUser']);
+  Route::patch('/update-password/{user}', [UserController::class, 'updatePassword']);
   Route::delete('/delete-user/{user}', [UserController::class, 'deleteUser']);
 });
 

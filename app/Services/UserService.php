@@ -8,14 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class UserService
 {
-  public function login(array $validated): User
+  public function login(array $validated): void
   {
     if(!Auth::attempt($validated)) {
       throw new \Exception('LogIn in failed!');
     }
-
-    $user = auth()->user();
-    return $user;
   }
 
   public function createUser(array $validated): array
@@ -45,7 +42,7 @@ class UserService
     $user->save();
   }
 
-  public function updateUser(User $user, array $validated): User
+  public function updateUser(User $user, array $validated): void
   {
     foreach ($validated as $key => $value) {
       if($user[$key] != $value) {
@@ -54,6 +51,10 @@ class UserService
     }
 
     $user->save();
-    return $user;
+  }
+
+  public function updatePassword(User $user, array $validated): void
+  {
+    $this->updateUser($user, ['password' => $validated['password']]);
   }
 }

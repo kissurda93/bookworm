@@ -1,6 +1,10 @@
 import "../../css/profile.css";
 import Layout from "../Layout/Layout";
+import PasswordForm from "../Components/PasswordForm";
+import DeleteAccountButton from "../Components/DeleteAccountButton";
 import { usePage, useForm } from "@inertiajs/inertia-react";
+import { router } from "@inertiajs/react";
+import { useState } from "react";
 
 const Profile = () => {
   const { user } = usePage().props.auth;
@@ -8,6 +12,7 @@ const Profile = () => {
     name: user.name,
     email: user.email,
   });
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,7 +21,7 @@ const Profile = () => {
     }
   };
 
-  const issueList = () =>
+  const renderIssueList = () =>
     user.issues.map((issue) => (
       <li className="issue">
         <p>Issue date: {issue.issue_date}</p>
@@ -38,6 +43,7 @@ const Profile = () => {
               type="text"
               value={data.name}
               onChange={(e) => setData("name", e.target.value)}
+              autoFocus
             />
             {errors.name && <p className="input-error">{errors.name}</p>}
           </label>
@@ -50,14 +56,39 @@ const Profile = () => {
             />
             {errors.email && <p className="input-error">{errors.email}</p>}
           </label>
-          <button type="submit" disabled={processing}>
+          <button
+            type="submit"
+            disabled={processing}
+            onFocus={() => {
+              setShowPasswordForm(false);
+            }}
+          >
             Update
           </button>
         </form>
+        {showPasswordForm && (
+          <div className="overlay" onClick={() => setShowPasswordForm(false)}>
+            <PasswordForm hideForm={() => setShowPasswordForm(false)} />
+          </div>
+        )}
+        <div className="profile-buttons-container">
+          <button
+            onClick={() => {
+              setShowPasswordForm(true);
+            }}
+            onFocus={() => {
+              setShowPasswordForm(false);
+            }}
+          >
+            Change Password
+          </button>
+
+          <DeleteAccountButton id={user.id} />
+        </div>
         <div className="issue-container">
           <h2>Issues</h2>
           {user.issues.length !== 0 ? (
-            <ul>{issueList()}</ul>
+            <ul>{renderIssueList()}</ul>
           ) : (
             <p className="no-issue">No issue found!</p>
           )}

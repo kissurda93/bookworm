@@ -36,10 +36,10 @@
 
 .user-update-form button {
   font-size: 1.4rem;
-  align-self: end;
   padding: 0.2rem 0.8rem;
   background-color: var(--color2);
   color: var(--color3);
+  align-self: end;
 }
 
 .user-update-form button:hover,
@@ -58,8 +58,27 @@
 }
 
 .no-issue {
-  padding: 1rem 5rem;
+  padding: 1rem 6rem;
   margin-top: 1rem;
   background-color: var(--color3);
   border-radius: 4px;
+}
+
+.profile-buttons-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.profile-buttons-container > button {
+  font-size: 1.4rem;
+  background-color: var(--color5);
+  color: var(--color4);
+  padding: 0.2rem 0.8rem;
+  box-shadow: 2px 2px 4px black;
+}
+
+.profile-buttons-container > button:hover,
+.profile-buttons-container > button:focus {
+  background-color: var(--color4);
+  color: var(--color5);
 }
