@@ -1,0 +1,42 @@
+.email-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  background-color: var(--color3);
+  color: var(--color2);
+  font-size: 1.2rem;
+  padding: 2rem 4rem;
+  border-radius: 4px;
+  box-shadow: 4px 4px 8px black;
+}
+
+.email-form label {
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+}
+
+.email-form input {
+  font-size: 1.4rem;
+  border-radius: 2px;
+  padding: 0.1rem 0.4rem;
+}
+
+.email-form input:focus {
+  outline: 3px solid var(--color2);
+}
+
+.email-form button {
+  font-size: 1.4rem;
+  align-self: end;
+  padding: 0.2rem 0.8rem;
+  background-color: var(--color1);
+  color: white;
+}
+
+.email-form button:hover,
+.email-form button:focus {
+  background-color: var(--color2);
+  color: var(--color3);
+}

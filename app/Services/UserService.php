@@ -22,7 +22,7 @@ class UserService
       'email' => $validated['email'],
       'password' => $validated['password'],
       'verification_token' => Str::random(100),
-      'is_librarian' => isset($validated['is_librarian']) ? $validated['is_librarian'] : 0,
+      'is_librarian' => $validated['is_librarian'] ?? 0,
     ]);
 
     $url = route('account-activate', ['user' => $user->verification_token,]);
@@ -53,8 +53,14 @@ class UserService
     $user->save();
   }
 
-  public function updatePassword(User $user, array $validated): void
+  public function createPasswordLink(User $user): string
   {
-    $this->updateUser($user, ['password' => $validated['password']]);
+    $token = Str::random(100);
+
+    $user->new_password_token = $token;
+    $user->save();
+
+    $url = route('newPasswordForm', ['token' => $token,]);
+    return $url;
   }
 }

@@ -19,6 +19,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Welcome')->name('indexPage');
 
+//FIXME: remove this route
+Route::get('/test', function () {
+  $user = User::where('name', 'Teszt Elek')->first();
+  return var_dump($user);
+});
+
+//TODO: move this route to librarian actions
 Route::get('/restore/{id}', [UserController::class, 'restoreUser']);
 
 //  User related
@@ -26,6 +33,9 @@ Route::middleware(['guest'])->group(function () {
   Route::post('/login', [UserController::class, 'login']);
   Route::inertia('/register-form', 'RegistrationForm');
   Route::post('/registration', [UserController::class, 'registerUser']);
+  Route::post('/forgotten-password-create-link', [UserController::class, 'createPasswordLink']);
+  Route::get('/new-password-form/{token}', [UserController::class, 'newPasswordForm'])->name('newPasswordForm');
+  Route::patch('/set-new-password', [UserController::class, 'setNewPassword']);
 });
 
 Route::middleware(['auth'])->group(function () {
