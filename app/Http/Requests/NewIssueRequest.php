@@ -23,7 +23,7 @@ class NewIssueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'month' => 'required|integer|max:3',
+            'month' => 'required|integer|min:1|max:3',
         ];
     }
 }

@@ -14,10 +14,11 @@ class Issue extends Model
     protected $fillable = [
         'user_id',
         'book_id',
-        'issue_date',
+        'request_date',
         'expire_date',
         'fine',
         'retrieved',
+        'issued',
     ];
 
     public function user(): BelongsTo

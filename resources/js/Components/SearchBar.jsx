@@ -1,7 +1,7 @@
 import "../../css/searchBar.css";
 import { useForm } from "@inertiajs/inertia-react";
 
-const SearchBar = () => {
+const SearchBar = ({ hideForm }) => {
   const { data, setData, get, processing } = useForm({
     query: "",
   });
@@ -20,7 +20,7 @@ const SearchBar = () => {
           value={data.query}
           onChange={(e) => setData("query", e.target.value)}
         />
-        <button type="submit" disabled={processing}>
+        <button type="submit" disabled={processing} onFocus={hideForm}>
           <span className="material-symbols-outlined">search</span>
         </button>
       </form>

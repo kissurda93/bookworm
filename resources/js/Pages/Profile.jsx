@@ -3,7 +3,6 @@ import Layout from "../Layout/Layout";
 import PasswordForm from "../Components/PasswordForm";
 import DeleteAccountButton from "../Components/DeleteAccountButton";
 import { usePage, useForm } from "@inertiajs/inertia-react";
-import { router } from "@inertiajs/react";
 import { useState } from "react";
 
 const Profile = () => {
@@ -22,15 +21,24 @@ const Profile = () => {
   };
 
   const renderIssueList = () =>
-    user.issues.map((issue) => (
-      <li className="issue">
-        <p>Issue date: {issue.issue_date}</p>
-        <p>Expire date: {issue.expire_date}</p>
-        <p>Fine: {issue.fine}</p>
-        <p>Issued: {issue.issued}</p>
-        <p>Retrieved: {issue.retrieved}</p>
-      </li>
-    ));
+    user.issues.map((issue) => {
+      if (issue.retrieved != null) {
+        return;
+      }
+
+      return (
+        <li
+          className={issue.fine != null ? "issue expired-issue" : "issue"}
+          key={issue.id}
+        >
+          <p>Book title: {issue.book.title}</p>
+          <p>Request date: {issue.request_date}</p>
+          <p>Expire date: {issue.expire_date}</p>
+          <p>Issued: {issue.issued != null ? issue.issued : "Not yet"}</p>
+          {issue.fine != null && <p>Fine: {issue.fine} $</p>}
+        </li>
+      );
+    });
 
   return (
     <Layout>

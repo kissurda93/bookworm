@@ -55,6 +55,31 @@
   border-radius: 4px;
   box-shadow: 4px 4px 8px black;
   padding: 2rem 6rem;
+  margin-inline: 10rem;
+}
+
+.issue-container h2 {
+  text-align: center;
+}
+
+.issue-container ul {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.issue {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color3);
+  padding: 1rem 2rem;
+  border-radius: 4px;
+}
+
+.expired-issue {
+  background-color: var(--color5);
+  color: var(--color4);
 }
 
 .no-issue {

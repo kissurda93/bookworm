@@ -4,6 +4,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\IssueController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,9 +21,18 @@ use Illuminate\Support\Facades\Route;
 Route::inertia('/', 'Welcome')->name('indexPage');
 
 //FIXME: remove this route
-Route::get('/test', function () {
-  $user = User::where('name', 'Teszt Elek')->first();
-  return var_dump($user);
+Route::get('/test', function (Request $request) {
+  $test = $request->user()->only('id', 'name', 'email', 'is_librarian');
+  $issues = $request->user()->issues;
+
+  foreach ($issues as $key => $issue) {
+   $issue->book;
+  }
+
+  $test[] = $issues;
+
+  return $test;
+
 });
 
 //TODO: move this route to librarian actions
@@ -49,7 +59,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/account_activate/{user:verification_token}', [UserController::class, 'activate'])->name('account-activate');
 
 // Books related
-Route::get('/books/{query?}', [BookController::class, 'getBooks']);
+Route::get('/books/{query?}', [BookController::class, 'getBooks'])->name('books');
 
 // Issue related
 Route::post('/new-issue/{user}/{book}', [IssueController::class, 'createIssue']);
