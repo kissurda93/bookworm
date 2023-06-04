@@ -19,6 +19,7 @@ const IssueForm = ({ bookId, bookTitle, hideForm }) => {
   return (
     <form
       className="issue-form"
+      id="issueForm"
       onSubmit={handleSubmit}
       onClick={(e) => {
         e.stopPropagation();
@@ -31,7 +32,6 @@ const IssueForm = ({ bookId, bookTitle, hideForm }) => {
           value={data.month}
           onChange={(e) => {
             setData("month", e.target.value);
-            console.log(data);
           }}
           autoFocus
           required

@@ -31,7 +31,7 @@ const Profile = () => {
           className={issue.fine != null ? "issue expired-issue" : "issue"}
           key={issue.id}
         >
-          <p>Book title: {issue.book.title}</p>
+          <p>Book title: {issue.book?.title}</p>
           <p>Request date: {issue.request_date}</p>
           <p>Expire date: {issue.expire_date}</p>
           <p>Issued: {issue.issued != null ? issue.issued : "Not yet"}</p>

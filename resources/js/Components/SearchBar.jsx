@@ -13,7 +13,11 @@ const SearchBar = ({ hideForm }) => {
 
   return (
     <div className="search-container">
-      <form className="relative-container" onSubmit={handleSubmit}>
+      <form
+        className="relative-container"
+        id="searchForm"
+        onSubmit={handleSubmit}
+      >
         <input
           type="text"
           placeholder="Search by title or author..."

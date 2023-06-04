@@ -5,44 +5,90 @@ import { useState } from "react";
 import Paginater from "../Components/Paginater";
 import SearchBar from "../Components/SearchBar";
 import IssueForm from "../Components/IssueForm";
+import DeleteBookButton from "../Components/DeleteBookButton";
+import BookUpdateForm from "../Components/BookForm";
 
 const Books = ({ books }) => {
   const { auth } = usePage().props;
-  const [issueForm, setIssueForm] = useState({
-    id: "",
-    title: "",
-    show: false,
+  const [formModal, setFormModal] = useState({
+    issueForm: {
+      id: "",
+      title: "",
+      show: false,
+    },
+    bookForm: {
+      book: null,
+      show: false,
+    },
   });
 
   const showIssueForm = (id, title) => {
-    setIssueForm(() => ({
-      id,
-      title,
-      show: true,
+    setFormModal(() => ({
+      issueForm: {
+        id,
+        title,
+        show: true,
+      },
+      bookForm: {
+        show: false,
+      },
     }));
   };
 
-  const hideIssueForm = () => {
-    setIssueForm((prev) => ({
-      ...prev,
-      show: false,
+  const showBookForm = (book = null) => {
+    setFormModal(() => ({
+      issueForm: {
+        show: false,
+      },
+      bookForm: {
+        book,
+        show: true,
+      },
+    }));
+  };
+
+  const hideForm = () => {
+    setFormModal(() => ({
+      issueForm: {
+        show: false,
+      },
+      bookForm: {
+        show: false,
+      },
     }));
   };
 
   return (
     <Layout>
+      <div className="book-list-top-container">
+        {auth.user?.is_librarian == 1 && (
+          <button
+            className="new-book-button"
+            onClick={() => {
+              showBookForm();
+            }}
+          >
+            New Book
+          </button>
+        )}
+        {books && <SearchBar hideForm={hideForm} />}
+      </div>
+      {formModal.issueForm.show && (
+        <div className="overlay" onClick={hideForm}>
+          <IssueForm
+            hideForm={hideForm}
+            bookId={formModal.issueForm.id}
+            bookTitle={formModal.issueForm.title}
+          />
+        </div>
+      )}
+      {formModal.bookForm.show && (
+        <div className="overlay" onClick={hideForm}>
+          <BookUpdateForm book={formModal.bookForm.book} hideForm={hideForm} />
+        </div>
+      )}
       {books && (
         <>
-          <SearchBar hideForm={hideIssueForm} />
-          {issueForm.show && (
-            <div className="overlay" onClick={hideIssueForm}>
-              <IssueForm
-                hideForm={hideIssueForm}
-                bookId={issueForm.id}
-                bookTitle={issueForm.title}
-              />
-            </div>
-          )}
           <ul className="book-list">
             {books.data.map((book) => (
               <li key={book.id}>
@@ -50,15 +96,29 @@ const Books = ({ books }) => {
                 <div className="book-info">
                   <p>Title: {book.title}</p>
                   <p>Author: {book.author}</p>
+
                   {auth.user && (
                     <button
                       onClick={() => {
                         showIssueForm(book.id, book.title);
                       }}
-                      onFocus={hideIssueForm}
+                      onFocus={hideForm}
+                      disabled={book.stock == 0}
                     >
-                      Request for Issue
+                      {book.stock == 0 ? "Out of stock" : "Request for Issue"}
                     </button>
+                  )}
+                  {auth.user && auth.user.is_librarian == 1 && (
+                    <div className="book-edit-buttons">
+                      <button
+                        onClick={() => {
+                          showBookForm(book);
+                        }}
+                      >
+                        Update
+                      </button>
+                      <DeleteBookButton id={book.id} />
+                    </div>
                   )}
                 </div>
               </li>

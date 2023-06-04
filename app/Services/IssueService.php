@@ -6,26 +6,35 @@ use App\Exceptions\IssueException;
 use App\Models\Book;
 use App\Models\User;
 use App\Models\Issue;
+use Illuminate\Support\Facades\DB;
 
 class IssueService
 {
-  public function createIssue(User $user, Book $book, array $validated): Issue
+  public function createIssue(User $user, Book $book, array $validated)
   {
+    if($book->stock <= 0) {
+      throw new IssueException('Out of stock!');
+    }
+
     if($this->checkBookAlreadyRequested($user, $book)) {
       throw new IssueException('You have already requested the book!');
     }
 
-    $issue = Issue::create([
-      'user_id' => $user->id,
-      'book_id' => $book->id,
-      'request_date' => date('Y-m-d'),
-      'expire_date' => $this->calculateExpireDate($validated['month']),
-    ]);
 
-    $user->issues()->save($issue);
-    $book->issues()->save($issue);
+    DB::transaction(function () use ($user, $book, $validated) {
+      $issue = Issue::create([
+        'user_id' => $user->id,
+        'book_id' => $book->id,
+        'request_date' => date('Y-m-d'),
+        'expire_date' => $this->calculateExpireDate($validated['month']),
+      ]);
 
-    return $issue;
+      $book->stock -= 1;
+      $book->save();
+
+      $user->issues()->save($issue);
+      $book->issues()->save($issue);
+    });
   }
 
   public function updateIssue(Issue $issue, array $validated): Issue

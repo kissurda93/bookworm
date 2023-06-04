@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\IssueController;
-use App\Http\Controllers\UserController;
+use App\Models\Book;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\IssueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,22 +22,11 @@ use Illuminate\Support\Facades\Route;
 Route::inertia('/', 'Welcome')->name('indexPage');
 
 //FIXME: remove this route
-Route::get('/test', function (Request $request) {
-  $test = $request->user()->only('id', 'name', 'email', 'is_librarian');
-  $issues = $request->user()->issues;
+Route::get('/test/{book}', function (Book $book, Request $request) {
 
-  foreach ($issues as $key => $issue) {
-   $issue->book;
-  }
-
-  $test[] = $issues;
-
-  return $test;
+  return var_dump(count($book->issues) === 0);
 
 });
-
-//TODO: move this route to librarian actions
-Route::get('/restore/{id}', [UserController::class, 'restoreUser']);
 
 //  User related
 Route::middleware(['guest'])->group(function () {
@@ -54,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
   Route::patch('/update-user/{user}', [UserController::class, 'updateUser']);
   Route::patch('/update-password/{user}', [UserController::class, 'updatePassword']);
   Route::delete('/delete-user/{user}', [UserController::class, 'deleteUser']);
+
+  // Issue related
+  Route::post('/new-issue/{user}/{book}', [IssueController::class, 'createIssue']);
 });
 
 Route::get('/account_activate/{user:verification_token}', [UserController::class, 'activate'])->name('account-activate');
@@ -61,14 +54,11 @@ Route::get('/account_activate/{user:verification_token}', [UserController::class
 // Books related
 Route::get('/books/{query?}', [BookController::class, 'getBooks'])->name('books');
 
-// Issue related
-Route::post('/new-issue/{user}/{book}', [IssueController::class, 'createIssue']);
-
-
 // Librarian actions -----------------------------------------
 Route::middleware(['is_librarian'])->group(function () {
   // User related
   Route::get('/users/{query?}', [UserController::class, 'getUsers']);
+  Route::get('/restore/{id}', [UserController::class, 'restoreUser']);
 
   // Issue related
   Route::get('/issues', [IssueController::class, 'getIssues']);

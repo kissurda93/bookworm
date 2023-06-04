@@ -2,51 +2,60 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\NewBookRequest;
-use App\Http\Requests\BookUpdateRequest;
 use App\Models\Book;
 use App\Services\BookService;
 use Illuminate\Http\Response;
+use App\Http\Requests\NewBookRequest;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\BookUpdateRequest;
 use Illuminate\Validation\ValidationException;
 
 class BookController extends Controller
 {
     public function getBooks(string $query = '')
     {
-        if($query) {
-            $books = Book::searchByTitleOrAuthor($query)->orderBy('title', 'asc')->paginate(25);
-        } else {
-          $books = Book::orderBy('title', 'asc')->paginate(25);
-        }
+      if($query) {
+        $books = Book::searchByTitleOrAuthor($query)->orderBy('title', 'asc')->paginate(25);
+      } else {
+        $books = Book::orderBy('title', 'asc')->paginate(25);
+      }
 
-        return inertia('Books', ['books' => $books]);
+      return inertia('Books', ['books' => $books]);
     }
 
-    public function newBook(NewBookRequest $request, BookService $bookService): Response
+    public function newBook(NewBookRequest $request, BookService $bookService): RedirectResponse
     {
-        try {
-            $validated = $request->validated();
-            $book = $bookService->createBook($validated);
-            return response($book, 201);
-        } catch (ValidationException $e) {
-            return response($e->getMessage());
-        }
+      $validated = $request->validated();
+      $bookService->createBook($validated);
+
+      return back()->with('message', [
+        'text' => 'Book added successfully!'
+      ]);
     }
 
-    public function updateBook(Book $book, BookUpdateRequest $request, BookService $bookService): Response
+    public function updateBook(Book $book, BookUpdateRequest $request, BookService $bookService): RedirectResponse
     {
-        try {
-            $validated = $request->validated();
-            $updatedBook = $bookService->updateBook($book, $validated);
-            return response($updatedBook);
-        } catch (ValidationException $e) {
-            return response($e->getMessage());
-        }
+      $validated = $request->validated();
+      $bookService->updateBook($book, $validated);
+
+      return back()->with('message', [
+        'text' => 'Book updated successfully!'
+      ]);
     }
 
-    public function deleteBook(Book $book): Response
+    public function deleteBook(Book $book): RedirectResponse
     {
-        $book->delete();
-        return response('Book deleted!');
+      if(count($book->issues) !== 0) {
+        return back()->with('message', [
+          'text' => 'You cannot delete a book that is currently issued!',
+          'error' => 1,
+        ]);
+      }
+
+      $book->delete();
+
+      return back()->with('message', [
+        'text' => 'Book deleted!',
+      ]);
     }
 }

@@ -15,7 +15,7 @@ class EnsureUserIsLibrarian
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!auth()->user() || auth()->user()->is_librarian !== 0) {
+        if(!$request->user() || $request->user()->is_librarian == 0) {
             return response('Unauthorized!', 401);
         }
 

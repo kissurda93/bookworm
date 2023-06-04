@@ -3,47 +3,43 @@
 namespace App\Services;
 
 use App\Models\Book;
-use Illuminate\Database\Eloquent\Model;
 
 class BookService
 {
-  public function createBook(array $validated): Model
+  public function createBook(array $validated)
   {
-    $book = Book::create([
+    Book::create([
       'title' => $validated['title'],
-      'author' => $validated['author'],
-      'stock' => isset($validated['stock']) ? $validated['stock'] : 1,
+      'author' => ($validated['author'] ?? 'Unknown'),
+      'stock' => ($validated['stock'] ?? 1),
       'imageLink' => $this->
-      storeImage($validated['title'], isset($validated['image']) ? $validated['image'] : null),
+      storeImage($validated['title'], ($validated['image'] ?? null)),
     ]);
-
-    return $book;
   }
 
-  public function updateBook(Book $book, array $validated): Model
+  public function updateBook(Book $book, array $validated)
   {
     foreach ($validated as $key => $value) {
       if($key === 'image') {
         $book['imageLink'] = $this->
-          storeImage(isset($validated['title']) ? $validated['title'] : $book['title'] , $value);
+          storeImage(($validated['title'] ?? $book['title']) , $value);
       } else {
         $book[$key] = $value;
       }
     }
 
     $book->save();
-    return $book;
   }
 
   private function storeImage(string $bookTitle, $file = null): string
   {
     if($file === null) {
-      return 'images/no-image.jpg';
+      return '/images/no-image.jpg';
     }
 
     $bookTitle = preg_replace('/\s+/', '-', $bookTitle);
     $imageName = time() . $bookTitle . $file->extension();
     $file->move(public_path('images'), $imageName);
-    return "images/$imageName";
+    return "/images/$imageName";
   }
 }
