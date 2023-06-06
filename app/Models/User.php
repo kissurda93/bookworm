@@ -59,8 +59,8 @@ class User extends Authenticatable
         return $this->hasMany(Issue::class);
     }
 
-    public function scopeSearchByName(Builder $query, string $queryString): void
+    public function scopeSearchByNameOrEmail(Builder $query, string $queryString): void
     {
-        $query->where('name', 'LIKE', '%'.$queryString.'%');
+        $query->where('name', 'LIKE', '%'.$queryString.'%')->orWhere('email', 'LIKE', '%'.$queryString.'%');
     }
 }

@@ -4,6 +4,7 @@ import PasswordForm from "../Components/PasswordForm";
 import DeleteAccountButton from "../Components/DeleteAccountButton";
 import { usePage, useForm } from "@inertiajs/inertia-react";
 import { useState } from "react";
+import { timeStampToDateString } from "../helpers";
 
 const Profile = () => {
   const { user } = usePage().props.auth;
@@ -22,7 +23,7 @@ const Profile = () => {
 
   const renderIssueList = () =>
     user.issues.map((issue) => {
-      if (issue.retrieved != null) {
+      if (issue.returned_at != null) {
         return;
       }
 
@@ -32,9 +33,11 @@ const Profile = () => {
           key={issue.id}
         >
           <p>Book title: {issue.book?.title}</p>
-          <p>Request date: {issue.request_date}</p>
-          <p>Expire date: {issue.expire_date}</p>
-          <p>Issued: {issue.issued != null ? issue.issued : "Not yet"}</p>
+          <p>Request date: {timeStampToDateString(issue.created_at)}</p>
+          <p>Expire date: {timeStampToDateString(issue.expire_date)}</p>
+          {issue.issued != null && (
+            <p>Issued: {timeStampToDateString(issue.issued)}</p>
+          )}
           {issue.fine != null && <p>Fine: {issue.fine} $</p>}
         </li>
       );
@@ -94,11 +97,11 @@ const Profile = () => {
           <DeleteAccountButton id={user.id} />
         </div>
         <div className="issue-container">
-          <h2>Issues</h2>
+          <h2>Current Requests</h2>
           {user.issues.length !== 0 ? (
             <ul>{renderIssueList()}</ul>
           ) : (
-            <p className="no-issue">No issue found!</p>
+            <p className="no-issue">No request found!</p>
           )}
         </div>
       </div>

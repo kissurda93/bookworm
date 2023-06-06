@@ -1,14 +1,38 @@
 import "../../css/searchBar.css";
 import { useForm } from "@inertiajs/inertia-react";
 
-const SearchBar = ({ hideForm }) => {
+const SearchBar = ({ hideForm = null, subject }) => {
   const { data, setData, get, processing } = useForm({
     query: "",
   });
 
+  const setPlaceholderText = () => {
+    switch (subject) {
+      case "book":
+        return "Search by title or author..";
+
+      case "user":
+        return "Search by name or email..";
+
+      default:
+        break;
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    get(`/books/${data.query}`);
+    switch (subject) {
+      case "book":
+        get(`/books/${data.query}`);
+        break;
+
+      case "user":
+        get(`/users/${data.query}`);
+        break;
+
+      default:
+        break;
+    }
   };
 
   return (
@@ -20,7 +44,7 @@ const SearchBar = ({ hideForm }) => {
       >
         <input
           type="text"
-          placeholder="Search by title or author..."
+          placeholder={setPlaceholderText()}
           value={data.query}
           onChange={(e) => setData("query", e.target.value)}
         />

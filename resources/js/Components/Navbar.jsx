@@ -17,6 +17,11 @@ const Navbar = () => {
           <li>
             <Link href="/books">Books</Link>
           </li>
+          {auth.user?.is_librarian == 1 && (
+            <li>
+              <Link href="/users">Users</Link>
+            </li>
+          )}
           {!auth.user && (
             <li>
               <Link href="/register-form">Registration</Link>

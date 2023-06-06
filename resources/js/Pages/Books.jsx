@@ -71,7 +71,7 @@ const Books = ({ books }) => {
             New Book
           </button>
         )}
-        {books && <SearchBar hideForm={hideForm} />}
+        {books && <SearchBar hideForm={hideForm} subject={"book"} />}
       </div>
       {formModal.issueForm.show && (
         <div className="overlay" onClick={hideForm}>
@@ -105,7 +105,7 @@ const Books = ({ books }) => {
                       onFocus={hideForm}
                       disabled={book.stock == 0}
                     >
-                      {book.stock == 0 ? "Out of stock" : "Request for Issue"}
+                      {book.stock == 0 ? "Out of stock" : "Request"}
                     </button>
                   )}
                   {auth.user && auth.user.is_librarian == 1 && (

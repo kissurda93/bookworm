@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Issue extends Model
 {
@@ -14,11 +13,10 @@ class Issue extends Model
     protected $fillable = [
         'user_id',
         'book_id',
-        'request_date',
         'expire_date',
         'fine',
-        'retrieved',
-        'issued',
+        'returned_at',
+        'issued_at',
     ];
 
     public function user(): BelongsTo

@@ -39,7 +39,7 @@ class IssueController extends Controller
       }
 
       return to_route('books')->with('message', [
-        'text' => 'Issue created successfully. You can pick up the book at the library!',
+        'text' => 'Request created successfully. You can pick up the book at the library!',
       ]);
     }
 
@@ -48,7 +48,7 @@ class IssueController extends Controller
       $validated = $request->validated();
       $issueService->updateIssue($issue, $validated);
       return to_route('indexPage')->with('message', [
-        'text' => 'Issue updated successfully!'
+        'text' => 'Request updated successfully!'
       ]);
     }
 }

@@ -15,11 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('book_id');
-            $table->date('request_date');
             $table->date('expire_date');
             $table->integer('fine')->nullable();
-            $table->date('issued')->nullable();
-            $table->date('retrieved')->nullable();
+            $table->date('issued_at')->nullable();
+            $table->date('returned_at')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');

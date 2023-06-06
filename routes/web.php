@@ -22,10 +22,16 @@ use App\Http\Controllers\IssueController;
 Route::inertia('/', 'Welcome')->name('indexPage');
 
 //FIXME: remove this route
-Route::get('/test/{book}', function (Book $book, Request $request) {
+Route::get('/test/{id}', function (int $id, Request $request) {
+  $user = User::withTrashed()
+    ->with('issues')
+    ->findOrFail($id);
 
-  return var_dump(count($book->issues) === 0);
+  foreach ($user->issues as $issue) {
+    $issue->book;
+  }
 
+  return $user;
 });
 
 //  User related
@@ -57,6 +63,7 @@ Route::get('/books/{query?}', [BookController::class, 'getBooks'])->name('books'
 // Librarian actions -----------------------------------------
 Route::middleware(['is_librarian'])->group(function () {
   // User related
+  Route::get('/user/{id}', [UserController::class, 'getUser']);
   Route::get('/users/{query?}', [UserController::class, 'getUsers']);
   Route::get('/restore/{id}', [UserController::class, 'restoreUser']);
 

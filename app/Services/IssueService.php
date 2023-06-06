@@ -25,7 +25,6 @@ class IssueService
       $issue = Issue::create([
         'user_id' => $user->id,
         'book_id' => $book->id,
-        'request_date' => date('Y-m-d'),
         'expire_date' => $this->calculateExpireDate($validated['month']),
       ]);
 
