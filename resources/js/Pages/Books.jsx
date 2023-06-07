@@ -1,61 +1,43 @@
 import "../../css/books.css";
 import Layout from "../Layout/Layout";
 import { usePage } from "@inertiajs/inertia-react";
-import { useState } from "react";
+import { useReducer } from "react";
 import Paginater from "../Components/Paginater";
 import SearchBar from "../Components/SearchBar";
 import IssueForm from "../Components/IssueForm";
 import DeleteBookButton from "../Components/DeleteBookButton";
 import BookUpdateForm from "../Components/BookForm";
+import { booksPageModalsReducer } from "../helpers";
+import { Link } from "@inertiajs/inertia-react";
 
 const Books = ({ books }) => {
   const { auth } = usePage().props;
-  const [formModal, setFormModal] = useState({
+  const initialModalState = {
     issueForm: {
-      id: "",
-      title: "",
+      id: null,
+      title: null,
       show: false,
     },
     bookForm: {
       book: null,
       show: false,
     },
-  });
+  };
+  const [modal, dispatch] = useReducer(
+    booksPageModalsReducer,
+    initialModalState
+  );
 
   const showIssueForm = (id, title) => {
-    setFormModal(() => ({
-      issueForm: {
-        id,
-        title,
-        show: true,
-      },
-      bookForm: {
-        show: false,
-      },
-    }));
+    dispatch({ type: "showIssueForm", id, title });
   };
 
   const showBookForm = (book = null) => {
-    setFormModal(() => ({
-      issueForm: {
-        show: false,
-      },
-      bookForm: {
-        book,
-        show: true,
-      },
-    }));
+    dispatch({ type: "showBookForm", book });
   };
 
-  const hideForm = () => {
-    setFormModal(() => ({
-      issueForm: {
-        show: false,
-      },
-      bookForm: {
-        show: false,
-      },
-    }));
+  const hideModal = () => {
+    dispatch({ type: "hideEverything" });
   };
 
   return (
@@ -71,20 +53,26 @@ const Books = ({ books }) => {
             New Book
           </button>
         )}
-        {books && <SearchBar hideForm={hideForm} subject={"book"} />}
+        {books && (
+          <SearchBar
+            hideForm={hideModal}
+            link={"/books/"}
+            placeholder="Search by title or author..."
+          />
+        )}
       </div>
-      {formModal.issueForm.show && (
-        <div className="overlay" onClick={hideForm}>
+      {modal.issueForm.show && (
+        <div className="overlay" onClick={hideModal}>
           <IssueForm
-            hideForm={hideForm}
-            bookId={formModal.issueForm.id}
-            bookTitle={formModal.issueForm.title}
+            hideForm={hideModal}
+            bookId={modal.issueForm.id}
+            bookTitle={modal.issueForm.title}
           />
         </div>
       )}
-      {formModal.bookForm.show && (
-        <div className="overlay" onClick={hideForm}>
-          <BookUpdateForm book={formModal.bookForm.book} hideForm={hideForm} />
+      {modal.bookForm.show && (
+        <div className="overlay" onClick={hideModal}>
+          <BookUpdateForm book={modal.bookForm.book} hideForm={hideModal} />
         </div>
       )}
       {books && (
@@ -102,7 +90,7 @@ const Books = ({ books }) => {
                       onClick={() => {
                         showIssueForm(book.id, book.title);
                       }}
-                      onFocus={hideForm}
+                      onFocus={hideModal}
                       disabled={book.stock == 0}
                     >
                       {book.stock == 0 ? "Out of stock" : "Request"}
@@ -110,6 +98,8 @@ const Books = ({ books }) => {
                   )}
                   {auth.user && auth.user.is_librarian == 1 && (
                     <div className="book-edit-buttons">
+                      <DeleteBookButton id={book.id} />
+
                       <button
                         onClick={() => {
                           showBookForm(book);
@@ -117,7 +107,9 @@ const Books = ({ books }) => {
                       >
                         Update
                       </button>
-                      <DeleteBookButton id={book.id} />
+                      <Link href="/" as="button">
+                        Requests
+                      </Link>
                     </div>
                   )}
                 </div>

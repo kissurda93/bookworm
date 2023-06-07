@@ -32,7 +32,7 @@ class UserController extends Controller
     return inertia('UserDetails', ['user' => $user]);
   }
 
-  public function getUsers(string $query = ''): Response
+  public function getUsers(string $query = null): Response
   {
     if($query) {
       $users = User::withTrashed()
@@ -124,11 +124,17 @@ class UserController extends Controller
     ]);
   }
 
-  //TODO: creating user interface for librarian to restore user accounts
-  public function restoreUser(int $id)
+  public function restoreUser(int $id): RedirectResponse
   {
     if(User::withTrashed()->findOrFail($id)->restore()) {
-      return response("User restored!");
+      return back()->with('message', [
+        'text' => "User account successfully restored!"
+      ]);
+    } else {
+      return back()->with('message', [
+        'text' => 'Restore was unsuccessfull!',
+        'error' => 1,
+      ]);
     }
   }
 

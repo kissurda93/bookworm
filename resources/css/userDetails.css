@@ -29,6 +29,20 @@
   margin-bottom: 1rem;
 }
 
+.user-details-container .user-details button {
+  font-size: inherit;
+  margin-top: 0.5rem;
+  padding: 0.2rem 0.8rem;
+  background-color: var(--color2);
+  color: var(--color3);
+}
+
+.user-details-container .user-details button:focus,
+.user-details-container .user-details button:hover {
+  background-color: var(--color4);
+  color: var(--color5);
+}
+
 .user-details-container .issues {
   background-color: var(--color1);
   color: var(--color3);

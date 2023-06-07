@@ -8,7 +8,7 @@ import { timeStampToDateString } from "../helpers";
 const Users = ({ users }) => {
   return (
     <Layout>
-      <SearchBar subject={"user"} />
+      <SearchBar link={"/users/"} placeholder="Search by name or email..." />
       <div className="user-table-container">
         <h2>Users</h2>
         <table>

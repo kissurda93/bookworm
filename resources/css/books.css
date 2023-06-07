@@ -58,6 +58,5 @@
 
 .book-edit-buttons {
   display: flex;
-  justify-content: end;
-  gap: 1rem;
+  justify-content: space-between;
 }

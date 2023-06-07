@@ -2,6 +2,7 @@ import "../../css/userDetails.css";
 import Layout from "../Layout/Layout";
 import { timeStampToDateString } from "../helpers";
 import IssueController from "../Components/IssueController";
+import RestoreAccountButton from "../Components/RestoreAccountButton";
 import { useState } from "react";
 
 const UserDetails = ({ user }) => {
@@ -24,7 +25,7 @@ const UserDetails = ({ user }) => {
   };
 
   const handleStyleChange = (issue) => {
-    if (issue.retrieved != null) {
+    if (issue.returned_at != null) {
       return "retrieved";
     }
 
@@ -55,15 +56,19 @@ const UserDetails = ({ user }) => {
             <p>Role: {user.is_librarian == 1 ? "Librarian" : "User"}</p>
             <p>Account created at: {timeStampToDateString(user.created_at)}</p>
             {user.deleted_at != null && (
-              <p>
-                Account deleted at: {timeStampToDateString(user.deleted_at)}
-              </p>
+              <>
+                <p>
+                  Account deleted at: {timeStampToDateString(user.deleted_at)}
+                </p>
+                <RestoreAccountButton id={user.id} name={user.name} />
+              </>
             )}
           </div>
           {issueController.show && (
             <div className="overlay" onClick={hideIssueController}>
               <IssueController
                 issue={issueController.issue}
+                user={user}
                 hideContainer={hideIssueController}
               />
             </div>
@@ -97,12 +102,12 @@ const UserDetails = ({ user }) => {
                         Expire date: {timeStampToDateString(issue.expire_date)}
                       </p>
                       {issue.issued_at != null && (
-                        <p>Issued: {timeStampToDateString(issue.issued_at)}$</p>
+                        <p>Issued: {timeStampToDateString(issue.issued_at)}</p>
                       )}
                       {issue.returned_at != null && (
                         <p>
                           Returned at:{" "}
-                          {timeStampToDateString(issue.returned_at)}$
+                          {timeStampToDateString(issue.returned_at)}
                         </p>
                       )}
                       {issue.fine != null && <p>Fine: {issue.fine}$</p>}
@@ -115,7 +120,7 @@ const UserDetails = ({ user }) => {
             <ul>
               <li>Active request</li>
               <li>Expired request</li>
-              <li>Retrieved request</li>
+              <li>Closed request</li>
             </ul>
           </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\IssueActionTypeEnums;
 use App\Exceptions\IssueException;
 use App\Models\Book;
 use App\Models\User;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class IssueService
 {
-  public function createIssue(User $user, Book $book, array $validated)
+  public function createIssue(User $user, Book $book, array $validated): void
   {
     if($book->stock <= 0) {
       throw new IssueException('Out of stock!');
@@ -36,14 +37,49 @@ class IssueService
     });
   }
 
-  public function updateIssue(Issue $issue, array $validated): Issue
+  public function updateIssue(Issue $issue, string $actionType): void
   {
-    foreach ($validated as $key => $value) {
-      $issue[$key] = $value;
-    }
+    try{
+      $this->checkIssueAction($issue, $actionType);
 
-    $issue->save();
-    return $issue;
+      DB::transaction(function () use ($issue, $actionType) {
+        if($actionType === IssueActionTypeEnums::Issue->value) {
+          $issue['issued_at'] = date('Y-m-d');
+        }
+
+        if($actionType === IssueActionTypeEnums::Return->value) {
+          $issue['returned_at'] = date('Y-m-d');
+
+          $issue->book->stock += 1;
+          $issue->book->save();
+        }
+
+        $issue->save();
+      });
+    } catch (IssueException $e) {
+      throw new IssueException($e->getMessage());
+    }
+  }
+
+  private function checkIssueAction(Issue $issue, string $actionType): void
+  {
+    switch ($actionType) {
+      case IssueActionTypeEnums::Issue->value:
+        if($issue->issued_at !== null || $issue->returned_at !== null) {
+          throw new IssueException('Wrong action!');
+        }
+        break;
+
+      case IssueActionTypeEnums::Return->value:
+        if($issue->issued_at === null || $issue->returned_at !== null) {
+          throw new IssueException('Wrong action!');
+        }
+        break;
+
+      default:
+        throw new IssueException('Wrong action!');
+        break;
+    }
   }
 
   private function calculateExpireDate(int $month): string
@@ -62,7 +98,7 @@ class IssueService
     $exist = false;
 
     foreach ($user->issues as $issue) {
-      if($issue->book->title == $book->title) {
+      if($issue->book->title == $book->title && $issue->returned_at === null) {
         $exist = true;
         break;
       }

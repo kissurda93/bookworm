@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\IssueActionTypeEnums;
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class IssueUpdateRequest extends FormRequest
@@ -22,8 +24,7 @@ class IssueUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'issued' => 'boolean',
-            'retrieved' => 'boolean',
+            'actionType' => ['required', new Enum(IssueActionTypeEnums::class)],
         ];
     }
 }

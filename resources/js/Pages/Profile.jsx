@@ -21,27 +21,30 @@ const Profile = () => {
     }
   };
 
-  const renderIssueList = () =>
-    user.issues.map((issue) => {
-      if (issue.returned_at != null) {
-        return;
-      }
+  const renderIssueList = () => {
+    const activeIssues = user.issues.filter(
+      (issue) => issue.returned_at == null
+    );
 
-      return (
-        <li
-          className={issue.fine != null ? "issue expired-issue" : "issue"}
-          key={issue.id}
-        >
-          <p>Book title: {issue.book?.title}</p>
-          <p>Request date: {timeStampToDateString(issue.created_at)}</p>
-          <p>Expire date: {timeStampToDateString(issue.expire_date)}</p>
-          {issue.issued != null && (
-            <p>Issued: {timeStampToDateString(issue.issued)}</p>
-          )}
-          {issue.fine != null && <p>Fine: {issue.fine} $</p>}
-        </li>
-      );
-    });
+    if (activeIssues.length == 0) {
+      return <p className="no-issue">No active request found!</p>;
+    }
+
+    return activeIssues.map((issue) => (
+      <li
+        className={issue.fine != null ? "issue expired-issue" : "issue"}
+        key={issue.id}
+      >
+        <p>Book title: {issue.book?.title}</p>
+        <p>Request date: {timeStampToDateString(issue.created_at)}</p>
+        <p>Expire date: {timeStampToDateString(issue.expire_date)}</p>
+        {issue.issued != null && (
+          <p>Issued at: {timeStampToDateString(issue.issued)}</p>
+        )}
+        {issue.fine != null && <p>Fine: {issue.fine} $</p>}
+      </li>
+    ));
+  };
 
   return (
     <Layout>
