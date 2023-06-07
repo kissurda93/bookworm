@@ -1,0 +1,44 @@
+.issue-table-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-block: 3rem;
+  font-size: 1.2rem;
+}
+
+.issue-table-container h2 {
+  color: var(--color5);
+}
+
+.issue-table-container table {
+  background-color: var(--color1);
+  box-shadow: 4px 4px 8px black;
+  color: var(--color5);
+}
+
+.issue-table-container thead {
+  border-bottom: 2px solid var(--color5);
+  background-color: var(--color5);
+  color: var(--color2);
+}
+
+.issue-table-container td,
+.issue-table-container th {
+  border-inline: 1px solid var(--color5);
+  padding: 0.2rem 0.4rem;
+}
+
+.issue-table-container tr:hover {
+  background-color: var(--color5);
+  color: var(--color2);
+}
+
+.issue-table-container th {
+  text-align: justify;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+  cursor: pointer;
+}

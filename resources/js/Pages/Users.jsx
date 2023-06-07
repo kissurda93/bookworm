@@ -28,17 +28,9 @@ const Users = ({ users }) => {
                 <tr key={user.id}>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
-                  <td>
-                    {user.email_verified_at == null
-                      ? ""
-                      : timeStampToDateString(user.email_verified_at)}
-                  </td>
+                  <td>{timeStampToDateString(user.email_verified_at)}</td>
                   <td>{user.is_librarian == 1 ? "Librarian" : "User"}</td>
-                  <td>
-                    {user.deleted_at == null
-                      ? ""
-                      : timeStampToDateString(user.deleted_at)}
-                  </td>
+                  <td>{timeStampToDateString(user.deleted_at)}</td>
                   <td>
                     <Link href={`/user/${user.id}`}>
                       <span className="material-symbols-outlined">

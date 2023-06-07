@@ -17,11 +17,14 @@ class IssueController extends Controller
     public function getIssues(string $query = null): Response
     {
       if($query) {
-        $issues = Issue::searchByBookTitle($query)->paginate(25);
+        $issues = Issue::searchByBookTitle($query)
+          ->with(['book', 'user'])
+          ->orderBy('returned_at')
+          ->paginate(25);
         return inertia('Issues', ['issues' => $issues]);
       }
 
-      $issues = Issue::paginate(25);
+      $issues = Issue::with(['book', 'user'])->orderBy('returned_at')->paginate(25);
       return inertia('Issues', ['issues' => $issues]);
     }
 

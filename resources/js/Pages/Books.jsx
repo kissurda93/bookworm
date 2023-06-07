@@ -43,6 +43,13 @@ const Books = ({ books }) => {
   return (
     <Layout>
       <div className="book-list-top-container">
+        {books && (
+          <SearchBar
+            hideForm={hideModal}
+            link={"/books/"}
+            placeholder="Search by title or author..."
+          />
+        )}
         {auth.user?.is_librarian == 1 && (
           <button
             className="new-book-button"
@@ -52,13 +59,6 @@ const Books = ({ books }) => {
           >
             New Book
           </button>
-        )}
-        {books && (
-          <SearchBar
-            hideForm={hideModal}
-            link={"/books/"}
-            placeholder="Search by title or author..."
-          />
         )}
       </div>
       {modal.issueForm.show && (
@@ -107,7 +107,7 @@ const Books = ({ books }) => {
                       >
                         Update
                       </button>
-                      <Link href="/" as="button">
+                      <Link href={`/issues/${book.title}`} as="button">
                         Requests
                       </Link>
                     </div>

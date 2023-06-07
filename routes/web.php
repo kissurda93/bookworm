@@ -24,7 +24,6 @@ Route::get('/test', function (Request $request) {
 
 Route::inertia('/', 'Welcome')->name('indexPage');
 Route::get('/account_activate/{user:verification_token}', [UserController::class, 'activate'])->name('account-activate');
-Route::get('/restore/{id}', [UserController::class, 'restoreUser']);
 Route::get('/books/{query?}', [BookController::class, 'getBooks'])->name('books');
 
 Route::middleware(['guest'])->group(function () {
@@ -48,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['is_librarian'])->group(function () {
   Route::get('/user/{id}', [UserController::class, 'getUser']);
   Route::get('/users/{query?}', [UserController::class, 'getUsers']);
+  Route::get('/restore/{id}', [UserController::class, 'restoreUser']);
   Route::get('/issues/{query?}', [IssueController::class, 'getIssues']);
   Route::patch('/updateIssue/{issue}', [IssueController::class, 'updateIssue']);
   Route::post('/new-book', [BookController::class, 'newBook']);

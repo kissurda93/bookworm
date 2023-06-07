@@ -1,10 +1,13 @@
 export function timeStampToDateString(timestamp) {
-  const dateString = new Date(timestamp).toLocaleDateString(undefined, {
+  if (!timestamp) {
+    return;
+  }
+
+  return new Date(timestamp).toLocaleDateString(undefined, {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
-  return dateString;
 }
 
 export function booksPageModalsReducer(state, action) {
