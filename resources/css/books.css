@@ -36,6 +36,11 @@
   box-shadow: 4px 4px 10px black;
 }
 
+.book-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .book-info {
   padding: 0.5rem;
   display: flex;
@@ -48,6 +53,8 @@
   display: flex;
   justify-content: end;
   gap: 0.5rem;
+  padding: 0.5rem;
+  margin-top: auto;
 }
 
 .book-button-container button {

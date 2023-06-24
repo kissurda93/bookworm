@@ -15,6 +15,7 @@ const DeleteBookButton = ({ id }) => {
   return (
     <button disabled={processing} onClick={handleClick}>
       <span className="material-symbols-outlined">delete</span>
+      <span className="tooltip">Delete</span>
     </button>
   );
 };

@@ -61,7 +61,9 @@ const Issues = ({ issues }) => {
           </thead>
           <tbody>
             {issues.data.length == 0 ? (
-              <tr>No request found</tr>
+              <tr>
+                <td>No request found</td>
+              </tr>
             ) : (
               issues.data.map((issue) => (
                 <tr key={issue.id}>
@@ -76,7 +78,7 @@ const Issues = ({ issues }) => {
                   <td>
                     {issue.returned_at == null && (
                       <span
-                        class="material-symbols-outlined"
+                        className="material-symbols-outlined"
                         tabIndex={0}
                         onFocus={hideModal}
                         onClick={() => {

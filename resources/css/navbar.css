@@ -27,7 +27,7 @@ header a {
   display: flex;
   height: 100%;
   align-items: center;
-  border-radius: 4px;
+  border-radius: 2px;
   transition: all 350ms;
 }
 
@@ -35,11 +35,6 @@ header a:hover,
 header a:focus {
   color: var(--color4);
   border-color: var(--color4);
-}
-
-header a:hover > .tooltip,
-header a:focus > .tooltip {
-  display: block;
 }
 
 header a .material-symbols-outlined {

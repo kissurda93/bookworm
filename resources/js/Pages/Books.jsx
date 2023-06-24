@@ -80,7 +80,7 @@ const Books = ({ books }) => {
         <>
           <ul className="book-list">
             {books.data.map((book) => (
-              <li key={book.id}>
+              <li className="book-container" key={book.id}>
                 <img src={book.imageLink} width={300} height={300} />
                 <div className="book-info">
                   <p>Title: {book.title}</p>
@@ -88,39 +88,38 @@ const Books = ({ books }) => {
                   {book.stock == 0 && (
                     <p className="out-stock">Out of stock!</p>
                   )}
+                </div>
 
-                  <div className="book-button-container">
-                    {auth.user && book.stock !== 0 && (
+                <div className="book-button-container">
+                  {auth.user && book.stock !== 0 && (
+                    <button
+                      onClick={() => {
+                        showIssueForm(book.id, book.title);
+                      }}
+                      onFocus={hideModal}
+                    >
+                      <span className="material-symbols-outlined">loupe</span>
+                      <span className="tooltip">Requesting the book</span>
+                    </button>
+                  )}
+                  {auth.user && auth.user.is_librarian == 1 && (
+                    <>
+                      <DeleteBookButton id={book.id} />
+
                       <button
                         onClick={() => {
-                          showIssueForm(book.id, book.title);
+                          showBookForm(book);
                         }}
-                        onFocus={hideModal}
                       >
-                        <span className="material-symbols-outlined">loupe</span>
+                        <span className="material-symbols-outlined">edit</span>
+                        <span className="tooltip">Edit</span>
                       </button>
-                    )}
-                    {auth.user && auth.user.is_librarian == 1 && (
-                      <>
-                        <DeleteBookButton id={book.id} />
-
-                        <button
-                          onClick={() => {
-                            showBookForm(book);
-                          }}
-                        >
-                          <span className="material-symbols-outlined">
-                            edit
-                          </span>
-                        </button>
-                        <Link href={`/issues/${book.title}`} as="button">
-                          <span className="material-symbols-outlined">
-                            list
-                          </span>
-                        </Link>
-                      </>
-                    )}
-                  </div>
+                      <Link href={`/issues/${book.title}`} as="button">
+                        <span className="material-symbols-outlined">list</span>
+                        <span className="tooltip">Show requests</span>
+                      </Link>
+                    </>
+                  )}
                 </div>
               </li>
             ))}
