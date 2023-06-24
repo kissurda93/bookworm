@@ -6,20 +6,54 @@ header {
   left: 0;
   right: 0;
   box-shadow: 4px 4px 8px black;
+  padding: 0.5rem 14rem;
 }
 
 header nav {
   padding-inline: 1rem;
   font-size: 1.4rem;
   color: var(--color2);
+  width: 100%;
 }
 
 header nav ul {
   display: flex;
   gap: 1rem;
-  align-items: center;
+  align-items: stretch;
+  width: 100%;
 }
 
-header img {
+header a {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  border-radius: 4px;
+  transition: all 350ms;
+}
+
+header a:hover,
+header a:focus {
+  color: var(--color4);
+  border-color: var(--color4);
+}
+
+header a:hover > .tooltip,
+header a:focus > .tooltip {
+  display: block;
+}
+
+header a .material-symbols-outlined {
+  font-size: 1.8rem;
+}
+
+header .logo {
   margin-right: 1rem;
+}
+
+header .profile-link {
+  margin-left: auto;
+}
+
+.active-navlink {
+  border-bottom: 3px solid var(--color2);
 }
