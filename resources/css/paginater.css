@@ -20,3 +20,8 @@
 .paginater-container .active {
   color: var(--color2);
 }
+
+.paginater-container a:hover,
+.paginater-container a:focus {
+  color: var(--color4);
+}

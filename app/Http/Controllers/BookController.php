@@ -8,16 +8,15 @@ use Illuminate\Http\Response;
 use App\Http\Requests\NewBookRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\BookUpdateRequest;
-use Illuminate\Validation\ValidationException;
 
 class BookController extends Controller
 {
     public function getBooks(string $query = '')
     {
       if($query) {
-        $books = Book::searchByTitleOrAuthor($query)->orderBy('title', 'asc')->paginate(25);
+        $books = Book::searchByTitleOrAuthor($query)->orderBy('title', 'asc')->paginate(15);
       } else {
-        $books = Book::orderBy('title', 'asc')->paginate(25);
+        $books = Book::orderBy('title', 'asc')->paginate(15);
       }
 
       return inertia('Books', ['books' => $books]);

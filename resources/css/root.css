@@ -36,9 +36,28 @@
   font-family: inherit;
 }
 
+* table,
+* th,
+* td {
+  border-collapse: collapse;
+}
+
 body {
   background: var(--color1);
   font-family: "Lora", serif;
+}
+
+.welcome-page-background-image {
+  background: url("/images/welcome-background.jpg") var(--color1) no-repeat;
+  background-blend-mode: luminosity;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.default-background-image {
+  background: url("/images/default-background.jpg") var(--color1) repeat;
+  background-blend-mode: luminosity;
+  min-height: 100vh;
 }
 
 .input-error {
@@ -49,19 +68,13 @@ body {
   position: fixed;
   top: 0;
   right: 0;
-  bottom: 0;
   left: 0;
+  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-}
-
-* table,
-* th,
-* td {
-  border-collapse: collapse;
+  z-index: 9;
 }
 
 .material-symbols-outlined {
