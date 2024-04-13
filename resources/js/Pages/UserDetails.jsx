@@ -79,40 +79,40 @@ const UserDetails = ({ user }) => {
               {user.issues.length == 0
                 ? "No request found"
                 : user.issues.map((issue) => (
-                    <li
-                      key={issue.id}
-                      className={handleStyleChange(issue)}
-                      tabIndex={0}
-                      onClick={() => {
+                  <li
+                    key={issue.id}
+                    className={handleStyleChange(issue)}
+                    tabIndex={0}
+                    onClick={() => {
+                      showIssueController(issue);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
                         showIssueController(issue);
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          showIssueController(issue);
-                        }
-                      }}
-                      onFocus={hideIssueController}
-                    >
-                      <p>Title: {issue.book.title}</p>
-                      <p>Author: {issue.book.author}</p>
+                      }
+                    }}
+                    onFocus={hideIssueController}
+                  >
+                    <p>Title: {issue.book.title}</p>
+                    <p>Author: {issue.book.author}</p>
+                    <p>
+                      Request date: {timeStampToDateString(issue.created_at)}
+                    </p>
+                    <p>
+                      Expire date: {timeStampToDateString(issue.expire_date)}
+                    </p>
+                    {issue.issued_at != null && (
+                      <p>Issued: {timeStampToDateString(issue.issued_at)}</p>
+                    )}
+                    {issue.returned_at != null && (
                       <p>
-                        Request date: {timeStampToDateString(issue.created_at)}
+                        Returned at:{" "}
+                        {timeStampToDateString(issue.returned_at)}
                       </p>
-                      <p>
-                        Expire date: {timeStampToDateString(issue.expire_date)}
-                      </p>
-                      {issue.issued_at != null && (
-                        <p>Issued: {timeStampToDateString(issue.issued_at)}</p>
-                      )}
-                      {issue.returned_at != null && (
-                        <p>
-                          Returned at:{" "}
-                          {timeStampToDateString(issue.returned_at)}
-                        </p>
-                      )}
-                      {issue.fine != null && <p>Fine: {issue.fine}$</p>}
-                    </li>
-                  ))}
+                    )}
+                    {issue.fine != null && <p>Fine: {issue.fine}$</p>}
+                  </li>
+                ))}
             </ul>
           </div>
           <div className="legend">

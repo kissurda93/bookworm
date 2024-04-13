@@ -49,7 +49,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function setPasswordAttribute($password)
+    public function setPasswordAttribute($password): void
     {
         $this->attributes['password'] = bcrypt($password);
     }
@@ -61,6 +61,6 @@ class User extends Authenticatable
 
     public function scopeSearchByNameOrEmail(Builder $query, string $queryString): void
     {
-        $query->where('name', 'LIKE', '%'.$queryString.'%')->orWhere('email', 'LIKE', '%'.$queryString.'%');
+        $query->where('name', 'LIKE', '%' . $queryString . '%')->orWhere('email', 'LIKE', '%' . $queryString . '%');
     }
 }

@@ -18,8 +18,8 @@ class EmailIsInDBRule implements ValidationRule
         $emails = User::get('email')->pluck('email');
         $success = $emails->search($value);
 
-        if($success === false) {
-          $fail('The :attribute does not belong to any user!');
+        if ($success === false) {
+            $fail('The :attribute does not belong to any user!');
         }
     }
 }

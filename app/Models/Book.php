@@ -26,7 +26,7 @@ class Book extends Model
 
     public function scopeSearchByTitleOrAuthor(Builder $query, string $queryString): void
     {
-        $query->where('title', 'LIKE', '%'.$queryString.'%')
-            ->orWhere('author', 'LIKE', '%'.$queryString.'%');
+        $query->where('title', 'LIKE', '%' . $queryString . '%')
+            ->orWhere('author', 'LIKE', '%' . $queryString . '%');
     }
 }

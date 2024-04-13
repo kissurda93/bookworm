@@ -21,7 +21,7 @@ class Issue extends Model
         'issued_at',
     ];
 
-    public function scopeSearchByBookTitle(Builder $query, string $queryString)
+    public function scopeSearchByBookTitle(Builder $query, string $queryString): void
     {
         $searchedBook = DB::table('books')->select('id')->where('title', 'LIKE', "%$queryString%");
         $query->whereIn('book_id', $searchedBook);
